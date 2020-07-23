@@ -7,7 +7,7 @@ namespace HomeAutomation.LightingSystem.LocalServiceL.Clients
 {
     public interface IRestClient
     {
-        Task<string> GetToken(string baseApiUrl, Authorizationcredentials authorizationCredentials);
+        Task<string> GetToken(string baseApiUrl, AuthorizationCredentials authorizationCredentials);
         Task AddLightPoint(Guid homeLightSystemId, LightPointDto lightPointDto);
         Task DisableLightPoint(Guid lightPointId);
         Task EnableLightPoint(Guid lightPointId);

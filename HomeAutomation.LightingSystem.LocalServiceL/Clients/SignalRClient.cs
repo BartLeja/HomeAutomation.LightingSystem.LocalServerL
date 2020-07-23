@@ -1,13 +1,10 @@
 ﻿
 using HomeAutomation.LightingSystem.LocalServiceL.Handlers.LightPointHardResetEvent;
 using HomeAutomation.LightingSystem.LocalServiceL.Handlers.ReceiveLightPointEvent;
-using HomeAutomation.LightingSystem.LocalServiceL.Handlers.SwitchLightPointEvent;
 using MediatR;
 using Microsoft.AspNetCore.SignalR.Client;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace HomeAutomation.LightingSystem.LocalServiceL.Clients
@@ -16,10 +13,7 @@ namespace HomeAutomation.LightingSystem.LocalServiceL.Clients
     {
         private HubConnection _connection;
         private readonly IMediator _mediator;
-        //public event EventHandler<ReceiveLightPointEventArgs> ReceiveLightPoint;
-        //public event EventHandler<HardRestOfLightPointEventArgs> HardRestOfLightPoint;
-        //public event EventHandler<RestOfLightPointEventArgs> RestOfLightPoint;
-
+      
         public SignalRClient(IMediator mediator)
         {
             _mediator = mediator;
@@ -56,43 +50,24 @@ namespace HomeAutomation.LightingSystem.LocalServiceL.Clients
 
             _connection.On<string, string>("ReceiveMessage", async (user, message) =>
             {
-                Debug.WriteLine($"Message from {user} recived. {message}");
+                Debug.WriteLine($"Message from {user} revived. {message}");
              
                 // _logger.Log($"Message from {user} recived. {message}", typeof(SignalRClient).Namespace, "");
             });
 
-            _connection.On<Guid, bool>("ReceiveLightPointStatus", (Guid lightBulbId, bool status) =>
+            _connection.On<Guid, bool>("ReceiveLightPointStatus", (lightBulbId, status) =>
             {
-                Debug.WriteLine($"Message from {lightBulbId} recived.");
-                //// _logger.Log($"Message from {lightPointNumber} recived.", typeof(SignalRClient).Namespace, "");
-                //var args = new ReceiveLightPointEventArgs
-                //{
-                //    LightBulbId = lightBulbId,
-                //    Status = status
-                //};
-                //  ReceiveLightPoint?.Invoke(this, args);
+                Debug.WriteLine($"Message from {lightBulbId} revived.");
                 _mediator.Send(new ReceiveLightPointEvent(lightBulbId, status));
             });
 
-            _connection.On<Guid>("HardRestOfLightPoint", (Guid lightBulbId) =>
+            _connection.On<Guid>("HardRestOfLightPoint", (lightBulbId) =>
             {
-                //HardRestOfLightPoint?.Invoke(this,
-                //    new HardRestOfLightPointEventArgs
-                //    {
-                //        LightPointId = lightBulbId
-                //    });
                 _mediator.Send(new LightPointHardResetEvent(lightBulbId));
             });
 
-
-            _connection.On<Guid>("RestOfLightPoint", (Guid lightBulbId) =>
+            _connection.On<Guid>("RestOfLightPoint", (lightBulbId) =>
             {
-                //RestOfLightPoint?.Invoke(
-                //    this,
-                //    new RestOfLightPointEventArgs
-                //    {
-                //        LightPointId = lightBulbId
-                //    });
                 _mediator.Send(new LightPointHardResetEvent(lightBulbId));
             });
 
@@ -122,7 +97,6 @@ namespace HomeAutomation.LightingSystem.LocalServiceL.Clients
         public async Task InvokeSendMessageMethod(string user, string message)
         {
             Debug.WriteLine("SendMessage");
-            //_logger.Log("SendMessage", typeof(SignalRClient).Namespace, "");
             try
             {
                 await _connection.InvokeAsync("SendMessage", user, message);
@@ -133,20 +107,4 @@ namespace HomeAutomation.LightingSystem.LocalServiceL.Clients
             }
         }
     }
-
-    //internal class ReceiveLightPointEventArgs : EventArgs
-    //{
-    //    public Guid LightBulbId { get; set; }
-    //    public bool Status { get; set; }
-    //}
-
-    //internal class RestOfLightPointEventArgs : EventArgs
-    //{
-    //    public Guid LightPointId { get; set; }
-    //}
-
-    //internal class HardRestOfLightPointEventArgs : EventArgs
-    //{
-    //    public Guid LightPointId { get; set; }
-    //}
 }

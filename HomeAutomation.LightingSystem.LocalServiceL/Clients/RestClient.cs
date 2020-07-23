@@ -20,7 +20,7 @@ namespace HomeAutomation.LightingSystem.LocalServiceL.Clients
             _homeAutomationLightSystemApi = "https://lightingsystemapi20200320102759.azurewebsites.net/api";
         }
 
-        public async Task<string> GetToken(string baseApiUrl, Authorizationcredentials authorizationCredentials)
+        public async Task<string> GetToken(string baseApiUrl, AuthorizationCredentials authorizationCredentials)
         {
             var respone = await $"{baseApiUrl}/api/Authentication".
                 PostJsonAsync(new
