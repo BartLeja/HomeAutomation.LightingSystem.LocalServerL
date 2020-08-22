@@ -39,6 +39,12 @@ E:\DeveloperProjects\HomeAutomation\HomeAutomation.LightingSystem.LocalServiceL\
 E:\DeveloperProjects\HomeAutomation\HomeAutomation.LightingSystem.LocalServiceL\HomeAutomation.LightingSystem.LocalServiceL\bin\Debug\netcoreapp3.1\System.IO.Pipelines.dll
 E:\DeveloperProjects\HomeAutomation\HomeAutomation.LightingSystem.LocalServiceL\HomeAutomation.LightingSystem.LocalServiceL\bin\Debug\netcoreapp3.1\System.Threading.Channels.dll
 E:\DeveloperProjects\HomeAutomation\HomeAutomation.LightingSystem.LocalServiceL\HomeAutomation.LightingSystem.LocalServiceL\bin\Debug\netcoreapp3.1\MQTTnet.dll
-E:\DeveloperProjects\HomeAutomation\HomeAutomation.LightingSystem.LocalServiceL\HomeAutomation.LightingSystem.LocalServiceL\obj\Debug\netcoreapp3.1\HomeAutomation.LightingSystem.LocalServiceL.MvcApplicationPartsAssemblyInfo.cache
 E:\DeveloperProjects\HomeAutomation\HomeAutomation.LightingSystem.LocalServiceL\HomeAutomation.LightingSystem.LocalServiceL\bin\Debug\netcoreapp3.1\MediatR.dll
 E:\DeveloperProjects\HomeAutomation\HomeAutomation.LightingSystem.LocalServiceL\HomeAutomation.LightingSystem.LocalServiceL\bin\Debug\netcoreapp3.1\MediatR.Extensions.Microsoft.DependencyInjection.dll
+E:\DeveloperProjects\HomeAutomation\HomeAutomation.LightingSystem.LocalServiceL\HomeAutomation.LightingSystem.LocalServiceL\bin\Debug\netcoreapp3.1\Serilog.dll
+E:\DeveloperProjects\HomeAutomation\HomeAutomation.LightingSystem.LocalServiceL\HomeAutomation.LightingSystem.LocalServiceL\bin\Debug\netcoreapp3.1\Serilog.Sinks.File.dll
+E:\DeveloperProjects\HomeAutomation\HomeAutomation.LightingSystem.LocalServiceL\HomeAutomation.LightingSystem.LocalServiceL\bin\Debug\netcoreapp3.1\Serilog.Sinks.Http.dll
+E:\DeveloperProjects\HomeAutomation\HomeAutomation.LightingSystem.LocalServiceL\HomeAutomation.LightingSystem.LocalServiceL\bin\Debug\netcoreapp3.1\Serilog.Sinks.Loki.dll
+E:\DeveloperProjects\HomeAutomation\HomeAutomation.LightingSystem.LocalServiceL\HomeAutomation.LightingSystem.LocalServiceL\bin\Debug\netcoreapp3.1\Serilog.Sinks.PeriodicBatching.dll
+E:\DeveloperProjects\HomeAutomation\HomeAutomation.LightingSystem.LocalServiceL\HomeAutomation.LightingSystem.LocalServiceL\bin\Debug\netcoreapp3.1\Serilog.Sinks.RollingFile.dll
+E:\DeveloperProjects\HomeAutomation\HomeAutomation.LightingSystem.LocalServiceL\HomeAutomation.LightingSystem.LocalServiceL\obj\Debug\netcoreapp3.1\HomeAutomation.LightingSystem.LocalServiceL.MvcApplicationPartsAssemblyInfo.cache

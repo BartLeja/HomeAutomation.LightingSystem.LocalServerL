@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Flurl;
 using Flurl.Http;
 using HomeAutomation.LightingSystem.LocalServiceL.Dto;
 using HomeAutomation.LightingSystem.LocalServiceL.Models;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 
 namespace HomeAutomation.LightingSystem.LocalServiceL.Clients
@@ -10,24 +12,33 @@ namespace HomeAutomation.LightingSystem.LocalServiceL.Clients
     public class RestClient: IRestClient
     {
         private readonly string _homeAutomationLightSystemApi;
-        private readonly string homeLightSystemUrl = "HomeLightSystem";
+        private readonly string _homeAutomationLocalLightSystemId;
+        private readonly string _identityServiceApi;
+     
         private readonly string lightPointUrl = "LightPoint";
+        private readonly IConfiguration _configuration;
 
         public RestClient(
             //string homeAutomationLightSystemApi
+            IConfiguration configuration
             )
         {
-            _homeAutomationLightSystemApi = "https://lightingsystemapi20200320102759.azurewebsites.net/api";
+            _configuration = configuration;
+          
+            _homeAutomationLightSystemApi = _configuration.GetSection("HomeAutomationLightSystemApi").Value;
+            _identityServiceApi = _configuration.GetSection("IdentityServiceUrl").Value;
+            _homeAutomationLocalLightSystemId = _configuration.GetSection("HomeAutomationLocalLightingSystemId").Value;
         }
 
-        public async Task<string> GetToken(string baseApiUrl, Authorizationcredentials authorizationCredentials)
+        public async Task<string> GetToken()
         {
-            var respone = await $"{baseApiUrl}/api/Authentication".
-                PostJsonAsync(new
-                {
-                    Email = authorizationCredentials.UserEmail,
-                    Password = authorizationCredentials.UserPassword
-                });
+            var respone = await $"{_identityServiceApi}/api/Authentication"
+                //.WithHeader("X-Api-Key", "C5BFF7F0-B4DF-475E-A331-F737424F013C")
+                //.WithHeader("Home-Automation-Local-LightSystem-Id", _homeAutomationLocalLightSystemId)
+                .WithHeaders(new { X_Api_Key = "C5BFF7F0-B4DF-475E-A331-F737424F013C",
+                    Home_Automation_Local_LightSystem_Id  = _homeAutomationLocalLightSystemId
+                })
+                .GetAsync();
 
             var contentInJson = respone.Content.ReadAsStringAsync().Result;
             return JsonConvert.DeserializeObject<TokenDto>(contentInJson).Token;
@@ -37,8 +48,12 @@ namespace HomeAutomation.LightingSystem.LocalServiceL.Clients
         {
             try
             {
-                await $"{_homeAutomationLightSystemApi}/{lightPointUrl}/{homeLightSystemId}".
-                PostJsonAsync(lightPointDto);
+                var token = await GetToken();
+                await $"{_homeAutomationLightSystemApi}/{lightPointUrl}/{homeLightSystemId}"
+                    .SetQueryParams(new {
+                      access_token = token
+                    })
+                    .PostJsonAsync(lightPointDto);
             }
             catch (Exception ex)
             {
@@ -51,7 +66,13 @@ namespace HomeAutomation.LightingSystem.LocalServiceL.Clients
         {
             try
             {
-                await $"{_homeAutomationLightSystemApi}/{lightPointUrl}/disableLightPoint/{lightPointId}".PostAsync(null);
+                var token = await GetToken();
+                await $"{_homeAutomationLightSystemApi}/{lightPointUrl}/disableLightPoint/{lightPointId}"
+                     .SetQueryParams(new
+                     {
+                         access_token = token
+                     })
+                    .PostAsync(null);
             }
             catch (Exception ex)
             {
@@ -64,7 +85,13 @@ namespace HomeAutomation.LightingSystem.LocalServiceL.Clients
         {
             try
             {
-                await $"{_homeAutomationLightSystemApi}/{lightPointUrl}/enableLightPoint/{lightPointId}".PostAsync(null);
+                var token = await GetToken();
+                await $"{_homeAutomationLightSystemApi}/{lightPointUrl}/enableLightPoint/{lightPointId}"
+                     .SetQueryParams(new
+                     {
+                         access_token = token
+                     })
+                     .PostAsync(null);
             }
             catch (Exception ex)
             {
@@ -77,7 +104,13 @@ namespace HomeAutomation.LightingSystem.LocalServiceL.Clients
         {
             try
             {
-                await $"{_homeAutomationLightSystemApi}/{lightPointUrl}/{lightPointId}".DeleteAsync();
+                var token = await GetToken();
+                await $"{_homeAutomationLightSystemApi}/{lightPointUrl}/{lightPointId}"
+                     .SetQueryParams(new
+                     {
+                         access_token = token
+                     })
+                     .DeleteAsync();
             }
             catch (Exception ex)
             {
@@ -90,7 +123,13 @@ namespace HomeAutomation.LightingSystem.LocalServiceL.Clients
         {
             try
             {
-                await $"{_homeAutomationLightSystemApi}/{lightPointUrl}/disableAllLightPoints/{homeLightSystemId}".PostAsync(null);
+                var token = await GetToken();
+                await $"{_homeAutomationLightSystemApi}/{lightPointUrl}/disableAllLightPoints/{homeLightSystemId}"
+                     .SetQueryParams(new
+                     {
+                         access_token = token
+                     })
+                     .PostAsync(null);
             }
             catch (Exception ex)
             {
@@ -103,7 +142,13 @@ namespace HomeAutomation.LightingSystem.LocalServiceL.Clients
         {
             try
             {
-                await $"{_homeAutomationLightSystemApi}/{lightPointUrl}/enableAllLightPoints/{homeLightSystemId}".PostAsync(null);
+                var token = await GetToken();
+                await $"{_homeAutomationLightSystemApi}/{lightPointUrl}/enableAllLightPoints/{homeLightSystemId}"
+                     .SetQueryParams(new
+                     {
+                         access_token = token
+                     })
+                     .PostAsync(null);
             }
             catch (Exception ex)
             {
@@ -116,28 +161,19 @@ namespace HomeAutomation.LightingSystem.LocalServiceL.Clients
         {
             try
             {
-                return await $"{_homeAutomationLightSystemApi}/{lightPointUrl}/{Id}".GetJsonAsync<LightPointDto>();
+                var token = await GetToken();
+                return await $"{_homeAutomationLightSystemApi}/{lightPointUrl}/{Id}"
+                     .SetQueryParams(new
+                     {
+                         access_token = token
+                     })
+                     .GetJsonAsync<LightPointDto>();
             }
             catch (Exception ex)
             {
                 Console.Write(ex);
                 throw;
             }
-        }
-
-        public Task ConnectToSignalR(string token, string signalRHubUrl)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task InvokeSendStatusMethod(Guid lightBulbId, bool status)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task InvokeSendMessageMethod(string user, string message)
-        {
-            throw new NotImplementedException();
         }
     }
 }

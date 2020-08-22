@@ -11,7 +11,7 @@ namespace HomeAutomation.LightingSystem.LocalServiceL.Mqtt
     {
         public async Task HandleClientConnectedAsync(MqttServerClientConnectedEventArgs eventArgs)
         {
-            Debug.WriteLine($"Client connected {eventArgs.ClientId}");
+            Debug.WriteLine($"Mqqt Client connected {eventArgs.ClientId}");
         }
     }
 }

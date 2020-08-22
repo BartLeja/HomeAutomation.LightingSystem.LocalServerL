@@ -1,8 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using HomeAutomation.LightingSystem.LocalServiceL.Clients;
+using HomeAutomation.LightingSystem.LocalServiceL.LogManagment;
 using HomeAutomation.LightingSystem.LocalServiceL.Models;
 using HomeAutomation.LightingSystem.LocalServiceL.Mqtt;
 using MediatR;
@@ -13,19 +10,19 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using MQTTnet.Server;
+using System;
 //https://dev.to/azure/net-core-iot-raspberry-pi-linux-and-azure-iot-hub-learn-how-to-build-deploy-and-debug-d1f
 namespace HomeAutomation.LightingSystem.LocalServiceL
 {
     public class Startup
     {
+        private IConfiguration _configuration { get; }
+
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            _configuration = configuration;
         }
-
-        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -35,6 +32,7 @@ namespace HomeAutomation.LightingSystem.LocalServiceL
             services.AddSingleton<ISignalRClient, SignalRClient>();
             services.AddSingleton<IHomeAutomationMqttServer, Mqtt.MqttServer>();
             services.AddScoped<IRestClient, RestClient>();
+            services.AddSingleton<ILogger, LokiLogger>();
             //services.AddScoped<IMqttServerClientDisconnectedHandler, ClientDisconnectedHandler>();
         }
 
@@ -61,13 +59,16 @@ namespace HomeAutomation.LightingSystem.LocalServiceL
                 endpoints.MapControllers();
             });
 
-            var auth = new Authorizationcredentials()
-            {
-                UserEmail = "blejaService",
-                UserPassword = "test"
-            };
-            var token = await restClient.GetToken("https://homeautomationidentityservice20190519114609.azurewebsites.net", auth);
-            await signalRClient.ConnectToSignalR(token, "https://lightingsystemapi20200320102759.azurewebsites.net/HomeLightSystemHub");
+            //var auth = new Authorizationcredentials()
+            //{
+            //    UserEmail = "blejaService",
+            //    UserPassword = "test"
+            //};
+           // var identityServiceUrl = _configuration.GetSection("IdentityServiceUrl").Value;
+            var signalRHubUrl = _configuration.GetSection("SignalRHubUrl").Value;
+            var token = await restClient.GetToken();
+           // var test = await restClient.GetLightPoints(Guid.Parse("49d8bb19-62a8-4496-88e6-8b010038d026"));
+            await signalRClient.ConnectToSignalR(token, signalRHubUrl);
             var mqttServer = await homeAutomationMqttServer.ServerRun();
             mqttServer.ClientConnectedHandler = new ClientConnectedHandler();
             mqttServer.ClientDisconnectedHandler = new ClientDisconnectedHandler(restClient, mqttServer);

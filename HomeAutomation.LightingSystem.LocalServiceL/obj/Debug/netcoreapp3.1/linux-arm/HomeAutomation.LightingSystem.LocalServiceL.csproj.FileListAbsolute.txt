@@ -342,3 +342,9 @@ E:\DeveloperProjects\HomeAutomation\HomeAutomation.LightingSystem.LocalServiceL\
 E:\DeveloperProjects\HomeAutomation\HomeAutomation.LightingSystem.LocalServiceL\HomeAutomation.LightingSystem.LocalServiceL\bin\Debug\netcoreapp3.1\linux-arm\Newtonsoft.Json.dll
 E:\DeveloperProjects\HomeAutomation\HomeAutomation.LightingSystem.LocalServiceL\HomeAutomation.LightingSystem.LocalServiceL\bin\Debug\netcoreapp3.1\linux-arm\MediatR.dll
 E:\DeveloperProjects\HomeAutomation\HomeAutomation.LightingSystem.LocalServiceL\HomeAutomation.LightingSystem.LocalServiceL\bin\Debug\netcoreapp3.1\linux-arm\MediatR.Extensions.Microsoft.DependencyInjection.dll
+E:\DeveloperProjects\HomeAutomation\HomeAutomation.LightingSystem.LocalServiceL\HomeAutomation.LightingSystem.LocalServiceL\bin\Debug\netcoreapp3.1\linux-arm\Serilog.dll
+E:\DeveloperProjects\HomeAutomation\HomeAutomation.LightingSystem.LocalServiceL\HomeAutomation.LightingSystem.LocalServiceL\bin\Debug\netcoreapp3.1\linux-arm\Serilog.Sinks.File.dll
+E:\DeveloperProjects\HomeAutomation\HomeAutomation.LightingSystem.LocalServiceL\HomeAutomation.LightingSystem.LocalServiceL\bin\Debug\netcoreapp3.1\linux-arm\Serilog.Sinks.Http.dll
+E:\DeveloperProjects\HomeAutomation\HomeAutomation.LightingSystem.LocalServiceL\HomeAutomation.LightingSystem.LocalServiceL\bin\Debug\netcoreapp3.1\linux-arm\Serilog.Sinks.Loki.dll
+E:\DeveloperProjects\HomeAutomation\HomeAutomation.LightingSystem.LocalServiceL\HomeAutomation.LightingSystem.LocalServiceL\bin\Debug\netcoreapp3.1\linux-arm\Serilog.Sinks.PeriodicBatching.dll
+E:\DeveloperProjects\HomeAutomation\HomeAutomation.LightingSystem.LocalServiceL\HomeAutomation.LightingSystem.LocalServiceL\bin\Debug\netcoreapp3.1\linux-arm\Serilog.Sinks.RollingFile.dll
