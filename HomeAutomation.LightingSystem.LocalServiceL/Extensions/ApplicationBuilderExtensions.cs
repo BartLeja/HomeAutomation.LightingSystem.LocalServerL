@@ -4,6 +4,7 @@ using HomeAutomation.LightingSystem.LocalServiceL.Models;
 using HomeAutomation.LightingSystem.LocalServiceL.Mqtt;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 
 namespace HomeAutomation.LightingSystem.LocalServiceL.Extensions
@@ -12,14 +13,14 @@ namespace HomeAutomation.LightingSystem.LocalServiceL.Extensions
     {
         public static async Task RunSignalRClientAsync(
           this IApplicationBuilder applicationBuilder,
-          IOptions<Configuration> configuration,
+          IConfiguration configuration,
           ISignalRClient signalRClient,
           IRestClient restClient)
         {
-            var auth = configuration.Value.AuthorizationCredentials;
-
-            var token = await restClient.GetToken(configuration.Value.IdentityServerBaseUrl, auth);
-            await signalRClient.ConnectToSignalR(token, configuration.Value.SignalRHubUrl);
+            // var auth = configuration.Value.AuthorizationCredentials;
+            var signalRHubUrl = configuration.GetSection("SignalRHubUrl").Value;
+            var token = await restClient.GetToken();
+            await signalRClient.ConnectToSignalR(token, signalRHubUrl);
         }
 
         public static async Task RunMqttServerAsync(

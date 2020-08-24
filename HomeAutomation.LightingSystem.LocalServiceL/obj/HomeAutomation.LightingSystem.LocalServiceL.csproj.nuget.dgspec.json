@@ -1,26 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "V:\\HomeAutomation.LightingSystem.LocalServerL\\HomeAutomation.LightingSystem.LocalServiceL\\HomeAutomation.LightingSystem.LocalServiceL.csproj": {}
+    "E:\\DeveloperProjects\\HomeAutomation\\HomeAutomation.LightingSystem.LocalServiceL\\HomeAutomation.LightingSystem.LocalServiceL\\HomeAutomation.LightingSystem.LocalServiceL.csproj": {}
   },
   "projects": {
-    "V:\\HomeAutomation.LightingSystem.LocalServerL\\HomeAutomation.LightingSystem.LocalServiceL\\HomeAutomation.LightingSystem.LocalServiceL.csproj": {
+    "E:\\DeveloperProjects\\HomeAutomation\\HomeAutomation.LightingSystem.LocalServiceL\\HomeAutomation.LightingSystem.LocalServiceL\\HomeAutomation.LightingSystem.LocalServiceL.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "V:\\HomeAutomation.LightingSystem.LocalServerL\\HomeAutomation.LightingSystem.LocalServiceL\\HomeAutomation.LightingSystem.LocalServiceL.csproj",
+        "projectUniqueName": "E:\\DeveloperProjects\\HomeAutomation\\HomeAutomation.LightingSystem.LocalServiceL\\HomeAutomation.LightingSystem.LocalServiceL\\HomeAutomation.LightingSystem.LocalServiceL.csproj",
         "projectName": "HomeAutomation.LightingSystem.LocalServiceL",
-        "projectPath": "V:\\HomeAutomation.LightingSystem.LocalServerL\\HomeAutomation.LightingSystem.LocalServiceL\\HomeAutomation.LightingSystem.LocalServiceL.csproj",
-        "packagesPath": "C:\\Users\\bleja\\.nuget\\packages\\",
-        "outputPath": "V:\\HomeAutomation.LightingSystem.LocalServerL\\HomeAutomation.LightingSystem.LocalServiceL\\obj\\",
+        "projectPath": "E:\\DeveloperProjects\\HomeAutomation\\HomeAutomation.LightingSystem.LocalServiceL\\HomeAutomation.LightingSystem.LocalServiceL\\HomeAutomation.LightingSystem.LocalServiceL.csproj",
+        "packagesPath": "C:\\Users\\BartlomiejLeja\\.nuget\\packages\\",
+        "outputPath": "E:\\DeveloperProjects\\HomeAutomation\\HomeAutomation.LightingSystem.LocalServiceL\\HomeAutomation.LightingSystem.LocalServiceL\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Microsoft\\Xamarin\\NuGet\\",
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\bleja\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "C:\\Users\\BartlomiejLeja\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"

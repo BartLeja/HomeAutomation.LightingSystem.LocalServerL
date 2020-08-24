@@ -6,10 +6,11 @@ using HomeAutomation.LightingSystem.LocalServiceL.Mqtt;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
+
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Configuration;
 
 namespace HomeAutomation.LightingSystem.LocalServiceL
 {
@@ -27,7 +28,7 @@ namespace HomeAutomation.LightingSystem.LocalServiceL
         {
             services.AddControllers();
             services.AddMediatR(typeof(Startup));
-            services.Configure<Configuration>(Configuration.GetSection("Configuration"));
+            services.Configure<Configuration>(_configuration.GetSection("Configuration"));
             services.AddSingleton<ISignalRClient, SignalRClient>();
             services.AddSingleton<IHomeAutomationMqttServer, Mqtt.MqttServer>();
             services.AddScoped<IRestClient, RestClient>();
@@ -61,7 +62,7 @@ namespace HomeAutomation.LightingSystem.LocalServiceL
                 endpoints.MapControllers();
             });
 
-            await app.RunSignalRClientAsync(config, signalRClient, restClient);
+            await app.RunSignalRClientAsync(_configuration, signalRClient, restClient);
 
             await app.RunMqttServerAsync(
                 homeAutomationMqttServer,

@@ -1,11 +1,10 @@
-﻿using System;
-using System.Threading.Tasks;
-using Flurl;
+﻿using Flurl;
 using Flurl.Http;
 using HomeAutomation.LightingSystem.LocalServiceL.Dto;
-using HomeAutomation.LightingSystem.LocalServiceL.Models;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
+using System;
+using System.Threading.Tasks;
 
 namespace HomeAutomation.LightingSystem.LocalServiceL.Clients
 {
@@ -33,8 +32,6 @@ namespace HomeAutomation.LightingSystem.LocalServiceL.Clients
         public async Task<string> GetToken()
         {
             var respone = await $"{_identityServiceApi}/api/Authentication"
-                //.WithHeader("X-Api-Key", "C5BFF7F0-B4DF-475E-A331-F737424F013C")
-                //.WithHeader("Home-Automation-Local-LightSystem-Id", _homeAutomationLocalLightSystemId)
                 .WithHeaders(new { X_Api_Key = "C5BFF7F0-B4DF-475E-A331-F737424F013C",
                     Home_Automation_Local_LightSystem_Id  = _homeAutomationLocalLightSystemId
                 })
