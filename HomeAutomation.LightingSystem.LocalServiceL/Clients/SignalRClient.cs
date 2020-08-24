@@ -53,25 +53,24 @@ namespace HomeAutomation.LightingSystem.LocalServiceL.Clients
 
             _connection.On<string, string>("ReceiveMessage", async (user, message) =>
             {
-                Debug.WriteLine($"Message from {user} recived. {message}");
+                Debug.WriteLine($"Message from {user} revived. {message}");
              
                 // _logger.Log($"Message from {user} recived. {message}", typeof(SignalRClient).Namespace, "");
             });
 
-            _connection.On<Guid, bool>("ReceiveLightPointStatus", (Guid lightBulbId, bool status) =>
+            _connection.On<Guid, bool>("ReceiveLightPointStatus", (lightBulbId, status) =>
             {
                 Debug.WriteLine($"Message from {lightBulbId} recived.");
                 _logger.LogInformation($"Message from {lightBulbId} recived.");
                 _mediator.Send(new ReceiveLightPointEvent(lightBulbId, status));
             });
 
-            _connection.On<Guid>("HardRestOfLightPoint", (Guid lightBulbId) =>
+            _connection.On<Guid>("HardRestOfLightPoint", (lightBulbId) =>
             {
                 _mediator.Send(new LightPointHardResetEvent(lightBulbId));
             });
 
-
-            _connection.On<Guid>("RestOfLightPoint", (Guid lightBulbId) =>
+            _connection.On<Guid>("RestOfLightPoint", (lightBulbId) =>
             {
                 _mediator.Send(new LightPointHardResetEvent(lightBulbId));
             });
@@ -102,7 +101,6 @@ namespace HomeAutomation.LightingSystem.LocalServiceL.Clients
         public async Task InvokeSendMessageMethod(string user, string message)
         {
             Debug.WriteLine("SendMessage");
-            //_logger.Log("SendMessage", typeof(SignalRClient).Namespace, "");
             try
             {
                 await _connection.InvokeAsync("SendMessage", user, message);
