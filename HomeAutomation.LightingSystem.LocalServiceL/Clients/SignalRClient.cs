@@ -1,10 +1,12 @@
 ﻿
 using HomeAutomation.LightingSystem.LocalServiceL.Handlers.LightPointHardResetEvent;
 using HomeAutomation.LightingSystem.LocalServiceL.Handlers.ReceiveLightPointEvent;
+using HomeAutomation.LightingSystem.LocalServiceL.Handlers.ReceiveLightsPointGroupEvent;
 using HomeAutomation.LightingSystem.LocalServiceL.LogManagment;
 using MediatR;
 using Microsoft.AspNetCore.SignalR.Client;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
@@ -65,6 +67,13 @@ namespace HomeAutomation.LightingSystem.LocalServiceL.Clients
                 _mediator.Send(new ReceiveLightPointEvent(lightBulbId, status));
             });
 
+            _connection.On<IEnumerable<Guid>, bool>("ReceiveLightPointsGroupStatus", (lightPointIds, status) =>
+            {
+                Debug.WriteLine($"Message from ReceiveLightPointsGroupStatus recived.");
+                _logger.LogInformation($"Message from ReceiveLightPointsGroupStatus recived.");
+                _mediator.Send(new ReceiveLightsPointGroupEvent(lightPointIds, status));
+            });
+
             _connection.On<Guid>("HardRestOfLightPoint", (lightBulbId) =>
             {
                 _mediator.Send(new LightPointHardResetEvent(lightBulbId));
@@ -74,6 +83,8 @@ namespace HomeAutomation.LightingSystem.LocalServiceL.Clients
             {
                 _mediator.Send(new LightPointHardResetEvent(lightBulbId));
             });
+
+
 
             try
             {

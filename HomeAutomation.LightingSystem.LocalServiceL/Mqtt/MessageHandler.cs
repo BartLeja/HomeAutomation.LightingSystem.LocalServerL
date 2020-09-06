@@ -18,11 +18,13 @@ namespace HomeAutomation.LightingSystem.LocalServiceL.Mqtt
     {
         private readonly IRestClient _restClient;
         private readonly IMediator _mediator;
+        private readonly ISignalRClient _signalRClient;
 
-        public MessageHandler(IRestClient restClient, IMediator mediator)
+        public MessageHandler(IRestClient restClient, IMediator mediator,  ISignalRClient signalRClient)
         {
             _restClient = restClient;
             _mediator = mediator;
+            _signalRClient = signalRClient;
         }
 
         public async Task HandleApplicationMessageReceivedAsync(MqttApplicationMessageReceivedEventArgs eventArgs)
@@ -83,8 +85,8 @@ namespace HomeAutomation.LightingSystem.LocalServiceL.Mqtt
         private async Task SwitchLight(string payload)
         {
             var lightPointStatus = JsonConvert.DeserializeObject<LightPointStatus>(payload);
-            // await _signalRClient.InvokeSendStatusMethod(Guid.Parse(lightPointStatus.Id), lightPointStatus.Status);
-            await _mediator.Send(new SwitchLightPointEvent(Guid.Parse(lightPointStatus.Id), lightPointStatus.Status));
+             await _signalRClient.InvokeSendStatusMethod(Guid.Parse(lightPointStatus.Id), lightPointStatus.Status);
+           // await _mediator.Send(new SwitchLightPointEvent(Guid.Parse(lightPointStatus.Id), lightPointStatus.Status));
         }
 
         private async Task LightPointReset(string payload)

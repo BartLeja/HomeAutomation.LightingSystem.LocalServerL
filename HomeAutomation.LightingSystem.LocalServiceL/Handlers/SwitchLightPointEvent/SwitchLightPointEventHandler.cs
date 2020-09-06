@@ -7,16 +7,18 @@ namespace HomeAutomation.LightingSystem.LocalServiceL.Handlers.SwitchLightPointE
 {
     public class SwitchLightPointEventHandler : AsyncRequestHandler<SwitchLightPointEvent>
     {
-        private readonly ISignalRClient _signalRClient;
+        //private readonly ISignalRClient _signalRClient;
 
-        public SwitchLightPointEventHandler(ISignalRClient signalRClient)
+        public SwitchLightPointEventHandler(
+           // ISignalRClient signalRClient
+            )
         {
-            _signalRClient = signalRClient;
+            //_signalRClient = signalRClient;
         }
 
         protected override async Task Handle(SwitchLightPointEvent request, CancellationToken cancellationToken)
         {
-            await _signalRClient.InvokeSendStatusMethod(request.LightPointId, request.LightPointStatus);
+           // await _signalRClient.InvokeSendStatusMethod(request.LightPointId, request.LightPointStatus);
         }
     }
 }

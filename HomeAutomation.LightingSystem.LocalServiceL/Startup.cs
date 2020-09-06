@@ -67,7 +67,8 @@ namespace HomeAutomation.LightingSystem.LocalServiceL
             await app.RunMqttServerAsync(
                 homeAutomationMqttServer,
                 restClient,
-                mediator);
+                mediator,
+                signalRClient);
         }
     }
 }
