@@ -14,13 +14,12 @@ namespace HomeAutomation.LightingSystem.LocalServiceL.Extensions
         public static async Task RunSignalRClientAsync(
           this IApplicationBuilder applicationBuilder,
           IConfiguration configuration,
-          ISignalRClient signalRClient,
-          IRestClient restClient)
+          ISignalRClient signalRClient
+          )
         {
             // var auth = configuration.Value.AuthorizationCredentials;
             var signalRHubUrl = configuration.GetSection("SignalRHubUrl").Value;
-            var token = await restClient.GetToken();
-            await signalRClient.ConnectToSignalR(token, signalRHubUrl);
+            await signalRClient.ConnectToSignalR(signalRHubUrl);
         }
 
         public static async Task RunMqttServerAsync(

@@ -31,7 +31,7 @@ namespace HomeAutomation.LightingSystem.LocalServiceL
             services.Configure<Configuration>(_configuration.GetSection("Configuration"));
             services.AddSingleton<ISignalRClient, SignalRClient>();
             services.AddSingleton<IHomeAutomationMqttServer, Mqtt.MqttServer>();
-            services.AddScoped<IRestClient, RestClient>();
+            services.AddSingleton<IRestClient, RestClient>();
             services.AddSingleton<ILogger, LokiLogger>();
             //services.AddScoped<IMqttServerClientDisconnectedHandler, ClientDisconnectedHandler>();
         }
@@ -62,7 +62,7 @@ namespace HomeAutomation.LightingSystem.LocalServiceL
                 endpoints.MapControllers();
             });
 
-            await app.RunSignalRClientAsync(_configuration, signalRClient, restClient);
+            await app.RunSignalRClientAsync(_configuration, signalRClient);
 
             await app.RunMqttServerAsync(
                 homeAutomationMqttServer,

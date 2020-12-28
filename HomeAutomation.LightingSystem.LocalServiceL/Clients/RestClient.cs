@@ -55,7 +55,6 @@ namespace HomeAutomation.LightingSystem.LocalServiceL.Clients
             catch (Exception ex)
             {
                 Console.Write(ex);
-                //  throw;
             }
         }
 
@@ -74,7 +73,6 @@ namespace HomeAutomation.LightingSystem.LocalServiceL.Clients
             catch (Exception ex)
             {
                 Console.Write(ex);
-                throw;
             }
         }
 
@@ -93,7 +91,6 @@ namespace HomeAutomation.LightingSystem.LocalServiceL.Clients
             catch (Exception ex)
             {
                 Console.Write(ex);
-                throw;
             }
         }
 
@@ -112,7 +109,6 @@ namespace HomeAutomation.LightingSystem.LocalServiceL.Clients
             catch (Exception ex)
             {
                 Console.Write(ex);
-                throw;
             }
         }
 
@@ -131,7 +127,6 @@ namespace HomeAutomation.LightingSystem.LocalServiceL.Clients
             catch (Exception ex)
             {
                 Console.Write(ex);
-                throw;
             }
         }
 
@@ -150,7 +145,6 @@ namespace HomeAutomation.LightingSystem.LocalServiceL.Clients
             catch (Exception ex)
             {
                 Console.Write(ex);
-                throw;
             }
         }
 
@@ -169,7 +163,7 @@ namespace HomeAutomation.LightingSystem.LocalServiceL.Clients
             catch (Exception ex)
             {
                 Console.Write(ex);
-                throw;
+                return new LightPointDto();
             }
         }
     }

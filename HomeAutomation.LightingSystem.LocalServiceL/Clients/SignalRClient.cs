@@ -17,22 +17,22 @@ namespace HomeAutomation.LightingSystem.LocalServiceL.Clients
         private HubConnection _connection;
         private readonly IMediator _mediator;
         private ILogger _logger;
+        private readonly IRestClient _restClient;
 
-        public SignalRClient(IMediator mediator, ILogger logger)
+        public SignalRClient(
+            IMediator mediator, 
+            ILogger logger,
+            IRestClient restClient)
         {
             _mediator = mediator;
             _logger = logger;
+            _restClient = restClient;        
         }
 
-        public async Task ConnectToSignalR(string token, string signalRHubUrl)
+        public async Task ConnectToSignalR(string signalRHubUrl)
         {
-            _connection = new HubConnectionBuilder()
-                .WithUrl(signalRHubUrl,
-                options =>
-                {
-                    options.AccessTokenProvider = () => Task.FromResult(token);
-                })
-                .Build();
+            var token = await _restClient.GetToken();
+            _connection = BuildHubConnection(signalRHubUrl, token);
 
             _connection.Closed += async (error) =>
             {
@@ -42,6 +42,9 @@ namespace HomeAutomation.LightingSystem.LocalServiceL.Clients
                     await Task.Delay(new Random().Next(0, 5) * 1000);
                     try
                     {
+                        var token = await _restClient.GetToken();
+                        _connection = BuildHubConnection(signalRHubUrl, token);
+                        SignalRMethodsRegistration();
                         await _connection.StartAsync();
                         connectionState = true;
                     }
@@ -53,37 +56,7 @@ namespace HomeAutomation.LightingSystem.LocalServiceL.Clients
                 }
             };
 
-            _connection.On<string, string>("ReceiveMessage", async (user, message) =>
-            {
-                Debug.WriteLine($"Message from {user} revived. {message}");
-             
-                // _logger.Log($"Message from {user} recived. {message}", typeof(SignalRClient).Namespace, "");
-            });
-
-            _connection.On<Guid, bool>("ReceiveLightPointStatus", (lightBulbId, status) =>
-            {
-                Debug.WriteLine($"Message from {lightBulbId} recived.");
-                _logger.LogInformation($"Message from {lightBulbId} recived.");
-                _mediator.Send(new ReceiveLightPointEvent(lightBulbId, status));
-            });
-
-            _connection.On<IEnumerable<Guid>, bool>("ReceiveLightPointsGroupStatus", (lightPointIds, status) =>
-            {
-                Debug.WriteLine($"Message from ReceiveLightPointsGroupStatus recived.");
-                _logger.LogInformation($"Message from ReceiveLightPointsGroupStatus recived.");
-                _mediator.Send(new ReceiveLightsPointGroupEvent(lightPointIds, status));
-            });
-
-            _connection.On<Guid>("HardRestOfLightPoint", (lightBulbId) =>
-            {
-                _mediator.Send(new LightPointHardResetEvent(lightBulbId));
-            });
-
-            _connection.On<Guid>("RestOfLightPoint", (lightBulbId) =>
-            {
-                _mediator.Send(new LightPointHardResetEvent(lightBulbId));
-            });
-
+            SignalRMethodsRegistration();
 
             try
             {
@@ -91,6 +64,7 @@ namespace HomeAutomation.LightingSystem.LocalServiceL.Clients
             }
             catch (Exception ex)
             {
+                //Here can be retry
                 Console.WriteLine(ex);
             }
 
@@ -119,6 +93,54 @@ namespace HomeAutomation.LightingSystem.LocalServiceL.Clients
             {
                 Console.WriteLine(ex);
             }
+        }
+
+        private HubConnection BuildHubConnection(string signalRHubUrl, string token)
+        {
+            return new HubConnectionBuilder()
+                .WithUrl(signalRHubUrl,
+                options =>
+                {
+                    options.AccessTokenProvider = () => Task.FromResult(token);
+                })
+                //Try with that
+               // .WithAutomaticReconnect()
+                .Build();
+        }
+
+        private void SignalRMethodsRegistration()
+        {
+            _connection.On<string, string>("ReceiveMessage", async (user, message) =>
+            {
+                Debug.WriteLine($"Message from {user} revived. {message}");
+
+                // _logger.Log($"Message from {user} recived. {message}", typeof(SignalRClient).Namespace, "");
+            });
+
+            _connection.On<Guid, bool>("ReceiveLightPointStatus", (lightBulbId, status) =>
+            {
+                Debug.WriteLine($"Message from {lightBulbId} recived.");
+                _logger.LogInformation($"Message from {lightBulbId} recived.");
+                _mediator.Send(new ReceiveLightPointEvent(lightBulbId, status));
+            });
+
+            _connection.On<IEnumerable<Guid>, bool>("ReceiveLightPointsGroupStatus", (lightPointIds, status) =>
+            {
+                Debug.WriteLine($"Message from ReceiveLightPointsGroupStatus recived.");
+                _logger.LogInformation($"Message from ReceiveLightPointsGroupStatus recived.");
+                _mediator.Send(new ReceiveLightsPointGroupEvent(lightPointIds, status));
+            });
+
+            _connection.On<Guid>("HardRestOfLightPoint", (lightBulbId) =>
+            {
+                _mediator.Send(new LightPointHardResetEvent(lightBulbId));
+            });
+
+            _connection.On<Guid>("RestOfLightPoint", (lightBulbId) =>
+            {
+                _mediator.Send(new LightPointHardResetEvent(lightBulbId));
+            });
+
         }
     }
 }
