@@ -1,6 +1,5 @@
 E:\DeveloperProjects\HomeAutomation\HomeAutomation.LightingSystem.LocalServiceL\HomeAutomation.LightingSystem.LocalServiceL\bin\Debug\netcoreapp3.1\linux-arm\appsettings.Development.json
 E:\DeveloperProjects\HomeAutomation\HomeAutomation.LightingSystem.LocalServiceL\HomeAutomation.LightingSystem.LocalServiceL\bin\Debug\netcoreapp3.1\linux-arm\appsettings.json
-E:\DeveloperProjects\HomeAutomation\HomeAutomation.LightingSystem.LocalServiceL\HomeAutomation.LightingSystem.LocalServiceL\bin\Debug\netcoreapp3.1\linux-arm\Properties\launchSettings.json
 E:\DeveloperProjects\HomeAutomation\HomeAutomation.LightingSystem.LocalServiceL\HomeAutomation.LightingSystem.LocalServiceL\bin\Debug\netcoreapp3.1\linux-arm\HomeAutomation.LightingSystem.LocalServiceL
 E:\DeveloperProjects\HomeAutomation\HomeAutomation.LightingSystem.LocalServiceL\HomeAutomation.LightingSystem.LocalServiceL\bin\Debug\netcoreapp3.1\linux-arm\HomeAutomation.LightingSystem.LocalServiceL.deps.json
 E:\DeveloperProjects\HomeAutomation\HomeAutomation.LightingSystem.LocalServiceL\HomeAutomation.LightingSystem.LocalServiceL\bin\Debug\netcoreapp3.1\linux-arm\HomeAutomation.LightingSystem.LocalServiceL.runtimeconfig.json
@@ -348,3 +347,5 @@ E:\DeveloperProjects\HomeAutomation\HomeAutomation.LightingSystem.LocalServiceL\
 E:\DeveloperProjects\HomeAutomation\HomeAutomation.LightingSystem.LocalServiceL\HomeAutomation.LightingSystem.LocalServiceL\bin\Debug\netcoreapp3.1\linux-arm\Serilog.Sinks.Loki.dll
 E:\DeveloperProjects\HomeAutomation\HomeAutomation.LightingSystem.LocalServiceL\HomeAutomation.LightingSystem.LocalServiceL\bin\Debug\netcoreapp3.1\linux-arm\Serilog.Sinks.PeriodicBatching.dll
 E:\DeveloperProjects\HomeAutomation\HomeAutomation.LightingSystem.LocalServiceL\HomeAutomation.LightingSystem.LocalServiceL\bin\Debug\netcoreapp3.1\linux-arm\Serilog.Sinks.RollingFile.dll
+E:\DeveloperProjects\HomeAutomation\HomeAutomation.LightingSystem.LocalServiceL\HomeAutomation.LightingSystem.LocalServiceL\obj\Debug\netcoreapp3.1\linux-arm\HomeAutomation.LightingSystem.LocalServiceL.csproj.CoreCompileInputs.cache
+E:\DeveloperProjects\HomeAutomation\HomeAutomation.LightingSystem.LocalServiceL\HomeAutomation.LightingSystem.LocalServiceL\obj\Debug\netcoreapp3.1\linux-arm\HomeAutomation.LightingSystem.LocalServiceL.genruntimeconfig.cache

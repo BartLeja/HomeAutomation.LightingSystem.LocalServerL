@@ -4,6 +4,7 @@ using HomeAutomation.LightingSystem.LocalServiceL.Enums;
 using HomeAutomation.LightingSystem.LocalServiceL.Handlers.SwitchLightPointEvent;
 using HomeAutomation.LightingSystem.LocalServiceL.Models;
 using MediatR;
+using Microsoft.Extensions.Configuration;
 using MQTTnet;
 using MQTTnet.Client.Receiving;
 using Newtonsoft.Json;
@@ -19,12 +20,20 @@ namespace HomeAutomation.LightingSystem.LocalServiceL.Mqtt
         private readonly IRestClient _restClient;
         private readonly IMediator _mediator;
         private readonly ISignalRClient _signalRClient;
+        private readonly IConfiguration _configuration;
+        private readonly string _homeAutomationLocalLightSystemId;
 
-        public MessageHandler(IRestClient restClient, IMediator mediator,  ISignalRClient signalRClient)
+        public MessageHandler(
+            IRestClient restClient, 
+            IMediator mediator,  
+            ISignalRClient signalRClient,
+            IConfiguration configuration)
         {
             _restClient = restClient;
             _mediator = mediator;
             _signalRClient = signalRClient;
+            _configuration = configuration;
+            _homeAutomationLocalLightSystemId = _configuration.GetSection("HomeAutomationLocalLightingSystemId").Value;
         }
 
         public async Task HandleApplicationMessageReceivedAsync(MqttApplicationMessageReceivedEventArgs eventArgs)
@@ -69,7 +78,7 @@ namespace HomeAutomation.LightingSystem.LocalServiceL.Mqtt
                     };
 
                     //TODO auto generation of guid and saving to memeory of rPi
-                    await _restClient.AddLightPoint(Guid.Parse("bdcd95ec-2dc6-4a7b-90ca-f132a7784b0f"), lightPointDto);
+                    await _restClient.AddLightPoint(Guid.Parse(_homeAutomationLocalLightSystemId), lightPointDto);
                 }
                 else
                 {

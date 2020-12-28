@@ -28,12 +28,13 @@ namespace HomeAutomation.LightingSystem.LocalServiceL.Extensions
             IHomeAutomationMqttServer homeAutomationMqttServer, 
             IRestClient restClient,
             IMediator mediator,
-            ISignalRClient signalRClient)
+            ISignalRClient signalRClient,
+            IConfiguration configuration)
         {
             var mqttServer = await homeAutomationMqttServer.ServerRun();
             mqttServer.ClientConnectedHandler = new ClientConnectedHandler();
             mqttServer.ClientDisconnectedHandler = new ClientDisconnectedHandler(restClient, mqttServer);
-            mqttServer.ApplicationMessageReceivedHandler = new MessageHandler(restClient, mediator,signalRClient);
+            mqttServer.ApplicationMessageReceivedHandler = new MessageHandler(restClient, mediator,signalRClient, configuration);
         }
     }
 }

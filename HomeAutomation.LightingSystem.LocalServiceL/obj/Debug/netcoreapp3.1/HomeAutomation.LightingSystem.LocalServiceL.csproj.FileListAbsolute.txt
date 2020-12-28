@@ -48,3 +48,5 @@ E:\DeveloperProjects\HomeAutomation\HomeAutomation.LightingSystem.LocalServiceL\
 E:\DeveloperProjects\HomeAutomation\HomeAutomation.LightingSystem.LocalServiceL\HomeAutomation.LightingSystem.LocalServiceL\bin\Debug\netcoreapp3.1\Serilog.Sinks.RollingFile.dll
 E:\DeveloperProjects\HomeAutomation\HomeAutomation.LightingSystem.LocalServiceL\HomeAutomation.LightingSystem.LocalServiceL\obj\Debug\netcoreapp3.1\HomeAutomation.LightingSystem.LocalServiceL.MvcApplicationPartsAssemblyInfo.cache
 E:\DeveloperProjects\HomeAutomation\HomeAutomation.LightingSystem.LocalServiceL\HomeAutomation.LightingSystem.LocalServiceL\obj\Debug\netcoreapp3.1\HomeAutomation.LightingSystem.LocalServiceL.csprojAssemblyReference.cache
+E:\DeveloperProjects\HomeAutomation\HomeAutomation.LightingSystem.LocalServiceL\HomeAutomation.LightingSystem.LocalServiceL\obj\Debug\netcoreapp3.1\HomeAutomation.LightingSystem.LocalServiceL.csproj.CoreCompileInputs.cache
+E:\DeveloperProjects\HomeAutomation\HomeAutomation.LightingSystem.LocalServiceL\HomeAutomation.LightingSystem.LocalServiceL\obj\Debug\netcoreapp3.1\HomeAutomation.LightingSystem.LocalServiceL.genruntimeconfig.cache

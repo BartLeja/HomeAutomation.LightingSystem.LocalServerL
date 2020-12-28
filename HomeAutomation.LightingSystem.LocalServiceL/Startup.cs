@@ -68,7 +68,8 @@ namespace HomeAutomation.LightingSystem.LocalServiceL
                 homeAutomationMqttServer,
                 restClient,
                 mediator,
-                signalRClient);
+                signalRClient,
+                _configuration);
         }
     }
 }

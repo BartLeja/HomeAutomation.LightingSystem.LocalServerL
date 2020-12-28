@@ -85,7 +85,6 @@ namespace HomeAutomation.LightingSystem.LocalServiceL.Clients
             });
 
 
-
             try
             {
                 await _connection.StartAsync();
