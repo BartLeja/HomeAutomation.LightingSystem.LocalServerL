@@ -12,10 +12,7 @@ namespace HomeAutomation.LightingSystem.LocalServiceL.Mqtt
         private MqttServerOptionsBuilder optionsBuilder;
         //private IRestClient _restClient;
 
-        public MqttServer()
-        {
-       
-        }
+        public MqttServer(){}
 
         public async Task<IMqttServer> ServerRun()
         {

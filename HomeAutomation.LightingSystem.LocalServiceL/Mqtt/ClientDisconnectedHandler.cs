@@ -1,4 +1,5 @@
-﻿using HomeAutomation.LightingSystem.LocalServiceL.Clients;
+﻿using HomeAutomation.Core.Logger;
+using HomeAutomation.LightingSystem.LocalServiceL.Clients;
 using MQTTnet.Server;
 using System;
 using System.Diagnostics;
@@ -10,11 +11,13 @@ namespace HomeAutomation.LightingSystem.LocalServiceL.Mqtt
     {
         private readonly IRestClient _restClient;
         private readonly IMqttServer _mqttServer;
+        private ILokiLogger _lokiLogger;
 
-        public ClientDisconnectedHandler(IRestClient restClient, IMqttServer mqttServer)
+        public ClientDisconnectedHandler(IRestClient restClient, IMqttServer mqttServer, ILokiLogger lokiLogger)
         {
             _restClient = restClient;
             _mqttServer = mqttServer;
+            _lokiLogger = lokiLogger;
         }
 
         public async Task HandleClientDisconnectedAsync(MqttServerClientDisconnectedEventArgs eventArgs)
@@ -27,6 +30,7 @@ namespace HomeAutomation.LightingSystem.LocalServiceL.Mqtt
             }
             catch (Exception ex)
             {
+                await _lokiLogger.SendMessage($"Lighting System {ex}", LogLevel.Error);
                 Console.WriteLine(ex);
             }
         }

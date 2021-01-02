@@ -1,4 +1,5 @@
-﻿using HomeAutomation.LightingSystem.LocalServiceL.Clients;
+﻿using HomeAutomation.Core.Logger;
+using HomeAutomation.LightingSystem.LocalServiceL.Clients;
 using HomeAutomation.LightingSystem.LocalServiceL.Dto;
 using HomeAutomation.LightingSystem.LocalServiceL.Enums;
 using HomeAutomation.LightingSystem.LocalServiceL.Handlers.SwitchLightPointEvent;
@@ -22,18 +23,24 @@ namespace HomeAutomation.LightingSystem.LocalServiceL.Mqtt
         private readonly ISignalRClient _signalRClient;
         private readonly IConfiguration _configuration;
         private readonly string _homeAutomationLocalLightSystemId;
+        private ITelegramLogger _logger;
+        private ILokiLogger _lokiLogger;
 
         public MessageHandler(
             IRestClient restClient, 
             IMediator mediator,  
             ISignalRClient signalRClient,
-            IConfiguration configuration)
+            IConfiguration configuration,
+            ITelegramLogger logger,
+            ILokiLogger lokiLogger)
         {
             _restClient = restClient;
             _mediator = mediator;
             _signalRClient = signalRClient;
             _configuration = configuration;
             _homeAutomationLocalLightSystemId = _configuration.GetSection("HomeAutomationLocalLightingSystemId").Value;
+            _logger = logger;
+            _lokiLogger = lokiLogger;
         }
 
         public async Task HandleApplicationMessageReceivedAsync(MqttApplicationMessageReceivedEventArgs eventArgs)
@@ -87,6 +94,8 @@ namespace HomeAutomation.LightingSystem.LocalServiceL.Mqtt
             }
             catch (Exception ex)
             {
+                await _logger.SendMessage($"Lighting System {ex}", LogLevel.Error);
+                await _lokiLogger.SendMessage($"Lighting System {ex}", LogLevel.Error);
                 Console.WriteLine(ex);
             }
         }
