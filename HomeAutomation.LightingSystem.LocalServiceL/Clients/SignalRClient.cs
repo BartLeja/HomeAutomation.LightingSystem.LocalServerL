@@ -1,8 +1,8 @@
 ﻿
+using HomeAutomation.Core.Logger;
 using HomeAutomation.LightingSystem.LocalServiceL.Handlers.LightPointHardResetEvent;
 using HomeAutomation.LightingSystem.LocalServiceL.Handlers.ReceiveLightPointEvent;
 using HomeAutomation.LightingSystem.LocalServiceL.Handlers.ReceiveLightsPointGroupEvent;
-using HomeAutomation.LightingSystem.LocalServiceL.LogManagment;
 using MediatR;
 using Microsoft.AspNetCore.SignalR.Client;
 using System;
@@ -16,16 +16,19 @@ namespace HomeAutomation.LightingSystem.LocalServiceL.Clients
     {
         private HubConnection _connection;
         private readonly IMediator _mediator;
-        private ILogger _logger;
+        private ITelegramLogger _logger;
+        private ILokiLogger _lokiLogger;
         private readonly IRestClient _restClient;
 
         public SignalRClient(
-            IMediator mediator, 
-            ILogger logger,
+            IMediator mediator,
+            ITelegramLogger logger,
+            ILokiLogger lokiLogger,
             IRestClient restClient)
         {
             _mediator = mediator;
             _logger = logger;
+            _lokiLogger = lokiLogger;
             _restClient = restClient;        
         }
 
@@ -36,6 +39,7 @@ namespace HomeAutomation.LightingSystem.LocalServiceL.Clients
 
             _connection.Closed += async (error) =>
             {
+                await _logger.SendMessage("Lighting System SignalR Disconnected");
                 var connectionState = false;
                 while (!connectionState)
                 {
@@ -50,6 +54,7 @@ namespace HomeAutomation.LightingSystem.LocalServiceL.Clients
                     }
                     catch (Exception ex)
                     {
+                        await _lokiLogger.SendMessage($"Lighting System {ex}", LogLevel.Error);
                         connectionState = false;
                         Console.WriteLine(ex);
                     }
@@ -64,6 +69,7 @@ namespace HomeAutomation.LightingSystem.LocalServiceL.Clients
             }
             catch (Exception ex)
             {
+                await _lokiLogger.SendMessage($"Lighting System {ex}", LogLevel.Error);
                 //Here can be retry
                 Console.WriteLine(ex);
             }
@@ -78,6 +84,7 @@ namespace HomeAutomation.LightingSystem.LocalServiceL.Clients
             }
             catch (Exception ex)
             {
+                await _lokiLogger.SendMessage($"Lighting System {ex}", LogLevel.Error);
                 Console.WriteLine(ex);
             }
         }
@@ -91,6 +98,7 @@ namespace HomeAutomation.LightingSystem.LocalServiceL.Clients
             }
             catch (Exception ex)
             {
+                await _lokiLogger.SendMessage($"Lighting System {ex}", LogLevel.Error);
                 Console.WriteLine(ex);
             }
         }
@@ -119,25 +127,25 @@ namespace HomeAutomation.LightingSystem.LocalServiceL.Clients
 
             _connection.On<Guid, bool>("ReceiveLightPointStatus", (lightBulbId, status) =>
             {
-                Debug.WriteLine($"Message from {lightBulbId} recived.");
-                _logger.LogInformation($"Message from {lightBulbId} recived.");
+                _lokiLogger.SendMessage($"Lighting System Changed bulb {lightBulbId} status to {status}.");
                 _mediator.Send(new ReceiveLightPointEvent(lightBulbId, status));
             });
 
             _connection.On<IEnumerable<Guid>, bool>("ReceiveLightPointsGroupStatus", (lightPointIds, status) =>
             {
-                Debug.WriteLine($"Message from ReceiveLightPointsGroupStatus recived.");
-                _logger.LogInformation($"Message from ReceiveLightPointsGroupStatus recived.");
+                _lokiLogger.SendMessage($"Lighting System Changed group status to {status}");
                 _mediator.Send(new ReceiveLightsPointGroupEvent(lightPointIds, status));
             });
 
             _connection.On<Guid>("HardRestOfLightPoint", (lightBulbId) =>
             {
+                _lokiLogger.SendMessage($"Lighting System Hard reset of bulb {lightBulbId}");
                 _mediator.Send(new LightPointHardResetEvent(lightBulbId));
             });
 
             _connection.On<Guid>("RestOfLightPoint", (lightBulbId) =>
             {
+                _lokiLogger.SendMessage($"Lighting System Reset of bulb {lightBulbId}");
                 _mediator.Send(new LightPointHardResetEvent(lightBulbId));
             });
 

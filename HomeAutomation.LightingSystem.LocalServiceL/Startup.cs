@@ -1,5 +1,4 @@
 using HomeAutomation.LightingSystem.LocalServiceL.Clients;
-using HomeAutomation.LightingSystem.LocalServiceL.LogManagment;
 using HomeAutomation.LightingSystem.LocalServiceL.Extensions;
 using HomeAutomation.LightingSystem.LocalServiceL.Models;
 using HomeAutomation.LightingSystem.LocalServiceL.Mqtt;
@@ -11,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Configuration;
+using HomeAutomation.Core.Logger;
 
 namespace HomeAutomation.LightingSystem.LocalServiceL
 {
@@ -32,7 +32,7 @@ namespace HomeAutomation.LightingSystem.LocalServiceL
             services.AddSingleton<ISignalRClient, SignalRClient>();
             services.AddSingleton<IHomeAutomationMqttServer, Mqtt.MqttServer>();
             services.AddSingleton<IRestClient, RestClient>();
-            services.AddSingleton<ILogger, LokiLogger>();
+            services.AddHomeAutomationLoggers();
             //services.AddScoped<IMqttServerClientDisconnectedHandler, ClientDisconnectedHandler>();
         }
 
@@ -44,7 +44,9 @@ namespace HomeAutomation.LightingSystem.LocalServiceL
             IRestClient restClient,
             IHomeAutomationMqttServer homeAutomationMqttServer,
             IMediator mediator,
-            IOptions<Configuration> config)
+            IOptions<Configuration> config,
+            ITelegramLogger telegramLogger,
+            ILokiLogger lokiLogger)
         {
             if (env.IsDevelopment())
             {
@@ -69,7 +71,9 @@ namespace HomeAutomation.LightingSystem.LocalServiceL
                 restClient,
                 mediator,
                 signalRClient,
-                _configuration);
+                _configuration,
+                telegramLogger,
+                lokiLogger);
         }
     }
 }

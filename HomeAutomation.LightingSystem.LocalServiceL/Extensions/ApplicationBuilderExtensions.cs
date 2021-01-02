@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using HomeAutomation.Core.Logger;
 using HomeAutomation.LightingSystem.LocalServiceL.Clients;
 using HomeAutomation.LightingSystem.LocalServiceL.Models;
 using HomeAutomation.LightingSystem.LocalServiceL.Mqtt;
@@ -28,12 +29,20 @@ namespace HomeAutomation.LightingSystem.LocalServiceL.Extensions
             IRestClient restClient,
             IMediator mediator,
             ISignalRClient signalRClient,
-            IConfiguration configuration)
+            IConfiguration configuration,
+            ITelegramLogger telegramLogger,
+            ILokiLogger lokiLogger)
         {
             var mqttServer = await homeAutomationMqttServer.ServerRun();
-            mqttServer.ClientConnectedHandler = new ClientConnectedHandler();
-            mqttServer.ClientDisconnectedHandler = new ClientDisconnectedHandler(restClient, mqttServer);
-            mqttServer.ApplicationMessageReceivedHandler = new MessageHandler(restClient, mediator,signalRClient, configuration);
+            mqttServer.ClientConnectedHandler = new ClientConnectedHandler(lokiLogger);
+            mqttServer.ClientDisconnectedHandler = new ClientDisconnectedHandler(restClient, mqttServer, lokiLogger);
+            mqttServer.ApplicationMessageReceivedHandler = new MessageHandler(
+                restClient, 
+                mediator,
+                signalRClient, 
+                configuration,
+                telegramLogger,
+                lokiLogger);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Flurl;
 using Flurl.Http;
+using HomeAutomation.Core.Logger;
 using HomeAutomation.LightingSystem.LocalServiceL.Dto;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
@@ -16,17 +17,19 @@ namespace HomeAutomation.LightingSystem.LocalServiceL.Clients
      
         private readonly string lightPointUrl = "LightPoint";
         private readonly IConfiguration _configuration;
+        private ILokiLogger _lokiLogger;
 
         public RestClient(
             //string homeAutomationLightSystemApi
-            IConfiguration configuration
-            )
-        {
+            IConfiguration configuration,
+            ILokiLogger lokiLogger
+        ){
             _configuration = configuration;
           
             _homeAutomationLightSystemApi = _configuration.GetSection("HomeAutomationLightSystemApi").Value;
             _identityServiceApi = _configuration.GetSection("IdentityServiceUrl").Value;
             _homeAutomationLocalLightSystemId = _configuration.GetSection("HomeAutomationLocalLightingSystemId").Value;
+            _lokiLogger = lokiLogger;
         }
 
         public async Task<string> GetToken()
@@ -54,6 +57,7 @@ namespace HomeAutomation.LightingSystem.LocalServiceL.Clients
             }
             catch (Exception ex)
             {
+                await _lokiLogger.SendMessage($"Lighting System {ex}", LogLevel.Error);
                 Console.Write(ex);
             }
         }
@@ -72,6 +76,7 @@ namespace HomeAutomation.LightingSystem.LocalServiceL.Clients
             }
             catch (Exception ex)
             {
+                await _lokiLogger.SendMessage($"Lighting System {ex}", LogLevel.Error);
                 Console.Write(ex);
             }
         }
@@ -90,6 +95,7 @@ namespace HomeAutomation.LightingSystem.LocalServiceL.Clients
             }
             catch (Exception ex)
             {
+                await _lokiLogger.SendMessage($"Lighting System {ex}", LogLevel.Error);
                 Console.Write(ex);
             }
         }
@@ -108,6 +114,7 @@ namespace HomeAutomation.LightingSystem.LocalServiceL.Clients
             }
             catch (Exception ex)
             {
+                await _lokiLogger.SendMessage($"Lighting System {ex}", LogLevel.Error);
                 Console.Write(ex);
             }
         }
@@ -126,6 +133,7 @@ namespace HomeAutomation.LightingSystem.LocalServiceL.Clients
             }
             catch (Exception ex)
             {
+                await _lokiLogger.SendMessage($"Lighting System {ex}", LogLevel.Error);
                 Console.Write(ex);
             }
         }
@@ -144,6 +152,7 @@ namespace HomeAutomation.LightingSystem.LocalServiceL.Clients
             }
             catch (Exception ex)
             {
+                await _lokiLogger.SendMessage($"Lighting System {ex}", LogLevel.Error);
                 Console.Write(ex);
             }
         }
@@ -162,6 +171,7 @@ namespace HomeAutomation.LightingSystem.LocalServiceL.Clients
             }
             catch (Exception ex)
             {
+                await _lokiLogger.SendMessage($"Lighting System {ex}", LogLevel.Error);
                 Console.Write(ex);
                 return new LightPointDto();
             }
